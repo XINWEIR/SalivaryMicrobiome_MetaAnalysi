@@ -1,0 +1,26 @@
+#export joined and filtered .qza file from QIIME2
+qiime tools export \
+  --input-path demux-trimmed-joined-filtered.qza \
+  --output-path Xavier
+cd Xavier
+cat OUTPUT_sum/*.fastq.gz > bigfile.fastq.gz
+gunzip bigfile.fastq.gz 
+seqtk seq -a bigfile.fastq.gz > bigfile.fasta
+
+###############################################
+#vsearch--otu97hits
+###############################################
+vsearch \
+  --usearch_global bigfile.fasta \
+  --db HOMD_V151.fasta \
+  --id 0.97 \
+  --threads 8 \
+  --uc input-HOMDV151-97-hits-25-30.uc
+  
+#############################################
+#UNOISE3--zotu
+#############################################
+usearch -fastx_uniques bigfile-xav.fasta -sizeout -relabel Uniq -fastaout uniques.fa -threads 16 -log uniques_log.txt
+usearch -unoise3 uniques.fa -zotus zotus.fa -threads 16 -log unoise_log.txt
+usearch -fastx_learn uniques.fa -output denoising_report.txt -threads 16
+usearch -otutab bigfile-xav.fastq -zotus zotus.fa -strand plus -otutabout unoise3_zotu_table.txt -mapout zmap.txt -threads 16 -log otutab_log.txt
