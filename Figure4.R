@@ -15,7 +15,7 @@ HOMD_taxonomy_core_new <- left_join(HOMD_1522, Core.MRA.2206)
 
 
 #Column=Phylum
-otu_phylum <- data.frame(Phylum=HOMD_taxonomy_core_new$Phylum)
+otu_phylum <- data.frame(Phylum = HOMD_taxonomy_core_new$Phylum)
 rownames(otu_phylum) <- HOMD_taxonomy_core_new$otu
 otu_phylum <- as.matrix(otu_phylum)
 phylum.name <- "Saccharibacteria"
