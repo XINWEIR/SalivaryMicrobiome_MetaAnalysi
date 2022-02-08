@@ -8,16 +8,16 @@ Core_MRA_log <- readRDS("Core_MRA_subgroups.rds")
 #Taxonomy
 setwd("~/Documents")
 library(qiime2R)
-taxonomy_1522<-read_qza("ref-1522-taxonomy.qza")$data
-taxonomy_1522_sep <-parse_taxonomy(taxonomy_1522)
-HOMD_1522 <-add_rownames(taxonomy_1522_sep, var= "otu")
+taxonomy_1522 <- read_qza("ref-1522-taxonomy.qza")$data
+taxonomy_1522_sep <- parse_taxonomy(taxonomy_1522)
+HOMD_1522 <- add_rownames(taxonomy_1522_sep, var= "otu")
 HOMD_taxonomy_core_new <- left_join(HOMD_1522, Core.MRA.2206)
 
 
 #Column=Phylum
 otu_phylum <- data.frame(Phylum=HOMD_taxonomy_core_new$Phylum)
 rownames(otu_phylum) <- HOMD_taxonomy_core_new$otu
-otu_phylum <-as.matrix(otu_phylum)
+otu_phylum <- as.matrix(otu_phylum)
 phylum.name <- "Saccharibacteria"
 otu_phylum[24,1]<- phylum.name
   #Order of hist 1 & hist 2 == match
